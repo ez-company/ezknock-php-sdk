@@ -1,6 +1,6 @@
 # ezknock-php-sdk
 
-[![packagist](https://img.shields.io/packagist/v/ezknock/ezknock-php-sdk.svg)](https://packagist.org/packages/ezknock/ezknock-php-sdk)
+[![packagist](https://img.shields.io/packagist/v/ezknock/ezknock-php-sdk)](https://packagist.org/packages/ezknock/ezknock-php-sdk)
 ![EZ Knock API Version](https://img.shields.io/badge/EZ%20Knock%20API%20Version-1.0-blue)
 
 > Official PHP bindings to the [EZ Knock API](https://api.ezknockmarketplace.com/docs)
