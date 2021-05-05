@@ -19,4 +19,11 @@ class BuyersTest extends TestCase {
         $buyers = new Buyers($this->client);
         $this->assertSame('foo', $buyers->getOrder(''));
     }
+
+    public function testCreateOrder() {
+        $this->client->method('post')->willReturn('foo');
+
+        $buyers = new Buyers($this->client);
+        $this->assertSame('foo', $buyers->createOrder([]));
+    }
 }
