@@ -2,6 +2,6 @@
 
 namespace EZKnock;
 
-class Order {
+class Order extends Context {
 
 }

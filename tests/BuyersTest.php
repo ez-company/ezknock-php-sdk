@@ -5,10 +5,18 @@ namespace EZKnock\Test;
 use EZKnock\Buyers;
 
 class BuyersTest extends TestCase {
-    public function testUserCreate() {
+
+    public function testCoverage() {
         $this->client->method('post')->willReturn('foo');
 
-        $users = new Buyers($this->client);
-        $this->assertSame('foo', $users->coverage(''));
+        $buyers = new Buyers($this->client);
+        $this->assertSame('foo', $buyers->coverage(''));
+    }
+
+    public function testGetOrder() {
+        $this->client->method('get')->willReturn('foo');
+
+        $buyers = new Buyers($this->client);
+        $this->assertSame('foo', $buyers->getOrder(''));
     }
 }

@@ -79,6 +79,8 @@ class Client {
 	 * @return string
 	 */
 	private function getUri($endpoint) {
+        return 'http://localhost/ezknock/public/api/v1'.$endpoint;
+
 		switch ($this->env) {
 			case self::ENV_SANDBOX:
 				$base_uri = 'https://dev.ezknock.app/api/v1';
@@ -89,7 +91,7 @@ class Client {
 				break;
 		}
 
-		return $base_uri.'/'.$endpoint;
+		return $base_uri.$endpoint;
 	}
 
 	/**
@@ -148,15 +150,23 @@ class Client {
     }
 
     /**
+     * Handle the reponse
+     * Creates the context object if available
+     *
      * @param ResponseInterface $response
+     * @param string $context
      *
      * @return stdClass
      */
-    private function handleResponse(ResponseInterface $response) {
+    private function handleResponse(ResponseInterface $response, $context = null) {
         $this->setRateLimit($response);
-        $stream = $response->getBody()->getContents();
 
-        return json_decode($stream);
+        if ($context) {
+            return new $context($response);
+        } else {
+            $stream = $response->getBody()->getContents();
+            return json_decode($stream);
+        }
     }
 
     /**
@@ -200,12 +210,14 @@ class Client {
      *
      * @param  string $endpoint
      * @param  array $data
+     * @param string $context
+     *
      * @return stdClass
      */
-    public function post($endpoint, $data) {
+    public function post($endpoint, $data, $context = null) {
         $uri = $this->getUri($endpoint);
         $response = $this->sendRequest('POST', $uri, $data);
-        return $this->handleResponse($response);
+        return $this->handleResponse($response, $context);
     }
 
     /**
@@ -213,14 +225,16 @@ class Client {
      *
      * @param string $endpoint
      * @param array  $queryParams
+     * @param string $context
+     *
      * @return stdClass
      */
-    public function get($endpoint, $params = []) {
+    public function get($endpoint, $params = [], $context = null) {
         $uri = $this->uri_factory->createUri($this->getUri($endpoint));
         if (!empty($params)) $uri = $uri->withQuery(http_build_query($params));
 
         $response = $this->sendRequest('GET', $uri);
-        return $this->handleResponse($response);
+        return $this->handleResponse($response, $context);
     }
 
     /**
