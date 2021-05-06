@@ -61,8 +61,56 @@ $client->setUriFactory($yourUriFactory);
 Get coverage information by Zip code.
 
 ```php
-$data = $client->buyers->coverage('73301');
-print_r($data);
+try {
+    $data = $client->buyers->coverage('73301');
+    print_r($data);
+} catch (Exception $ex) {
+    print_r($ex->getMessage());
+    print_r($ex->getDebug());
+}
+```
+
+## Create order
+
+Create an order
+
+```php
+$data = [
+    'recipients' => [
+        [
+            'firstname' => 'Ryann',
+            'lastname' => 'Ullrich',
+            'company' => 'Romaguera, Yundt and Marvin',
+            'email' => 'nikita67@kihn.com'
+        ]
+    ],
+    'address' => '2453 W Vita Locks Rapids',
+    'address_2' => 'BLDG 377',
+    'city' => 'Austin',
+    'state' => 'TX',
+    'zip' => '78749',
+    'return_type' => 'default',
+    'originals' => false,
+    'witnessfees' => true,
+    'instructions' => 'Aut perferendis et necessitatibus. Vel tempore molestiae ut nihil dolore. Rem dolor sed nulla cupiditate.',
+    'min_attempts' => 3,
+    'documents' => 'ORDER FOR ALTERNATIVE SERVICE AND TO EXTEND TIME FOR SERVICE OF PROCESS; SUMMONS; COMPLAINT; EXHIBIT; NOTICE TO DEFENDANT',
+    'attempt_by' => '2021-05-10',
+    'diligence_by' => '2021-05-15',
+    'complete_by' => '2021-05-20',
+    'service_files' => [fopen('/path/to/file.pdf', 'r')],
+    'other_files' => [fopen('/path/to/file.pdf', 'r')],
+    'return_file' => fopen('/path/to/file.pdf', 'r'),
+    'price' => 19
+];
+
+try {
+    $order = $ezknock->buyers->createOrder($data);
+    print_r($order);
+} catch (Exception $ex) {
+    print_r($ex->getMessage());
+    print_r($ex->getDebug());
+}
 ```
 
 ## Rate Limits
