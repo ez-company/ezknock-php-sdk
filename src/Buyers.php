@@ -2,8 +2,6 @@
 
 namespace EZKnock;
 
-use Http\Client\Exception;
-
 class Buyers extends Resource {
 
     /**
@@ -12,10 +10,16 @@ class Buyers extends Resource {
      * @see https://developers.ezknockmarketplace.com/reference#create-order
      * @param  array $data
      * @return Order
-     * @throws Exception
      */
-    public function createOrder($data) {
-        return $this->client->post('/buyers/orders', $data, Order::class);
+    public function createOrder(array $data, $type = Order::TYPE_CBO) {
+        $builder = new MultipartDataBuilder;
+        $builder->addResources($data);
+        $builder->addResource('type', $type);
+
+        $stream = $builder->build();
+        $boundary = $builder->getBoundary();
+
+        return $this->client->post('/buyers/orders', $stream, Order::class, 'multipart/form-data; boundary="'.$boundary.'"');
     }
 
     /**

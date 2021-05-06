@@ -79,8 +79,6 @@ class Client {
 	 * @return string
 	 */
 	private function getUri($endpoint) {
-        return 'http://localhost/ezknock/public/api/v1'.$endpoint;
-
 		switch ($this->env) {
 			case self::ENV_SANDBOX:
 				$base_uri = 'https://dev.ezknock.app/api/v1';
@@ -97,10 +95,9 @@ class Client {
 	/**
      * @return array
      */
-    private function getRequestHeaders() {
+    private function getRequestHeaders($content_type = 'application/json') {
         return [
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
+            'Content-Type' => $content_type,
             'User-Agent' => 'EZKnock-PHP/' . self::SDK_VERSION,
         ];
     }
@@ -139,14 +136,18 @@ class Client {
 	 * @return ResponseInterface
 	 * @throws ClientExceptionInterface
 	 */
-    private function sendRequest($method, $uri, $body = null) {
-        $headers = $this->getRequestHeaders();
-        $body = is_array($body) ? json_encode($body) : $body;
+    private function sendRequest($method, $uri, $body = null, $content_type = 'application/json') {
+        $headers = $this->getRequestHeaders($content_type);
+        $body = is_array($body) && $content_type === 'application/json' ? json_encode($body) : $body;
 
         $request = $this->request_factory->createRequest($method, $uri, $headers, $body);
         $authenticated_request = $this->authenticateRequest($request);
 
-        return $this->http->sendRequest($authenticated_request);
+        try {
+            return $this->http->sendRequest($authenticated_request);
+        } catch (ClientExceptionInterface $e) {
+            throw new ClientHttpException($e);
+        }
     }
 
     /**
@@ -154,15 +155,15 @@ class Client {
      * Creates the context object if available
      *
      * @param ResponseInterface $response
-     * @param string $context
+     * @param string $resource
      *
      * @return stdClass
      */
-    private function handleResponse(ResponseInterface $response, $context = null) {
+    private function handleResponse(ResponseInterface $response, $resource = null) {
         $this->setRateLimit($response);
 
-        if ($context) {
-            return new $context($response);
+        if ($resource) {
+            return new $resource($this, $response);
         } else {
             $stream = $response->getBody()->getContents();
             return json_decode($stream);
@@ -210,14 +211,14 @@ class Client {
      *
      * @param  string $endpoint
      * @param  array $data
-     * @param string $context
+     * @param string $resource
      *
      * @return stdClass
      */
-    public function post($endpoint, $data, $context = null) {
+    public function post($endpoint, $data, $resource = null, $content_type = 'application/json') {
         $uri = $this->getUri($endpoint);
-        $response = $this->sendRequest('POST', $uri, $data);
-        return $this->handleResponse($response, $context);
+        $response = $this->sendRequest('POST', $uri, $data, $content_type);
+        return $this->handleResponse($response, $resource);
     }
 
     /**
@@ -225,16 +226,16 @@ class Client {
      *
      * @param string $endpoint
      * @param array  $queryParams
-     * @param string $context
+     * @param string $resource
      *
      * @return stdClass
      */
-    public function get($endpoint, $params = [], $context = null) {
+    public function get($endpoint, $params = [], $resource = null) {
         $uri = $this->uri_factory->createUri($this->getUri($endpoint));
         if (!empty($params)) $uri = $uri->withQuery(http_build_query($params));
 
         $response = $this->sendRequest('GET', $uri);
-        return $this->handleResponse($response, $context);
+        return $this->handleResponse($response, $resource);
     }
 
     /**
