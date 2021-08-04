@@ -81,7 +81,7 @@ class Client {
 	private function getUri($endpoint) {
 		switch ($this->env) {
 			case self::ENV_SANDBOX:
-				$base_uri = 'https://dev.ezknockmarketplace.com/api/v1';
+				$base_uri = 'https://test.ezknockmarketplace.com/api/v1';
 				break;
 
 			default:
