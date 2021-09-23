@@ -105,7 +105,7 @@ $data = [
 ];
 
 try {
-    $order = $ezknock->buyers->createOrder($data);
+    $order = $client->buyers->createOrder($data);
     print_r($order);
 } catch (Exception $ex) {
     print_r($ex->getMessage());
