@@ -4,8 +4,6 @@ namespace EZKnock;
 
 class Order extends Resource {
 
-    const TYPE_CBO = 1;
-
     public function uploadDocuments($files, $options = []) {
         $builder = new MultipartDataBuilder;
         if ($options) $builder->addResources($options);

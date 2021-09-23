@@ -39,6 +39,7 @@ class Client {
 		$this->auth_token = $auth_token;
 
 		$this->buyers = new Buyers($this);
+        $this->whoknocked = new Whoknocked($this);
 
 		$this->http = $this->getDefaultHttpClient();
         $this->request_factory = MessageFactoryDiscovery::find();
@@ -83,6 +84,10 @@ class Client {
 			case self::ENV_SANDBOX:
 				$base_uri = 'https://test.ezknockmarketplace.com/api/v1';
 				break;
+
+            case self::ENV_PRODUCTION:
+                $base_uri = 'https://ezknockmarketplace.com/api/v1';
+                break;
 
 			default:
 				throw new \Exception('Environment is not supported');
