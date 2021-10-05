@@ -6,8 +6,8 @@ class Buyers extends Resource {
 
     /**
      * Creates an order
-     *
      * @see https://developers.ezknockmarketplace.com/reference#create-order
+     *
      * @param  array $data
      * @return Order
      */
@@ -20,6 +20,23 @@ class Buyers extends Resource {
         $boundary = $builder->getBoundary();
 
         return $this->client->post('/buyers/orders', $stream, Order::class, 'multipart/form-data; boundary="'.$boundary.'"');
+    }
+
+    /**
+     * Pay seller with amount
+     * @see https://developers.ezknockmarketplace.com/reference#seller-pay
+     *
+     * @param  int $seller_id
+     * @param  float  $amount
+     * @param  string $description
+     *
+     * @return object
+     */
+    public function sellerPay($seller_id, float $amount, $description) {
+        return $this->client->post('/buyers/sellers/'.$seller_id.'/pay', [
+            'amount' => $amount,
+            'description' => $description
+        ]);
     }
 
     /**
