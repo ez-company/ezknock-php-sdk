@@ -28,14 +28,30 @@ class Buyers extends Resource {
      *
      * @param  int $seller_id
      * @param  float  $amount
-     * @param  string $description
+     * @param  string $notes
      *
      * @return object
      */
-    public function sellerPay($seller_id, float $amount, $description) {
+    public function sellerPay($seller_id, float $amount, $notes = null) {
         return $this->client->post('/buyers/sellers/'.$seller_id.'/pay', [
             'amount' => $amount,
-            'description' => $description
+            'notes' => $notes
+        ]);
+    }
+
+    /**
+     * Add funds to wallet from funding source
+     *
+     * @param  string $source_id
+     * @param  float  $amount
+     * @param  strinng $notes
+     *
+     * @return object
+     */
+    public function fundWallet($source_id, float $amount, $notes = null) {
+        return $this->client->post('/buyers/wallet/fund', [
+            'amount' => $amount,
+            'notes' => $notes
         ]);
     }
 
