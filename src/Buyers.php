@@ -51,7 +51,8 @@ class Buyers extends Resource {
     public function fundWallet($source_id, float $amount, $notes = null) {
         return $this->client->post('/buyers/wallet/fund', [
             'amount' => $amount,
-            'notes' => $notes
+            'notes' => $notes,
+            'srcid' => $source_id
         ]);
     }
 
