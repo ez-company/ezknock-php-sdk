@@ -5,6 +5,24 @@ namespace EZKnock;
 class Buyers extends Resource {
 
     /**
+     * Hold orders by Zipcodes or Ids
+     * @see https://developers.ezknockmarketplace.com/reference#hold-orders
+     *
+     * @param  array      $order_ids
+     * @param  array|null $zipcodes
+     * @param  string     $notes
+     *
+     * @return object
+     */
+    public function hold(array $order_ids, array $zipcodes = null, $notes = null) {
+        return $this->client->post('/buyers/orders/hold', [
+            'order_ids' => $order_ids,
+            'zipcodes' => $zipcodes,
+            'notes' => $notes
+        ]);
+    }
+
+    /**
      * Creates an order
      * @see https://developers.ezknockmarketplace.com/reference#create-order
      *
