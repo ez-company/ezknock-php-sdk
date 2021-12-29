@@ -5,6 +5,16 @@ namespace EZKnock;
 class Order extends Resource {
 
     /**
+     * Relese buyer hold
+     * @see https://developers.ezknockmarketplace.com/reference#unhold-order
+     *
+     * @return object
+     */
+    public function unhold() {
+        return $this->client->post('/buyers/orders/'.$this->id.'/unhold');
+    }
+
+    /**
      * Put on Buyer hold
      * @see https://developers.ezknockmarketplace.com/reference#hold-order
      *

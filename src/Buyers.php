@@ -5,6 +5,24 @@ namespace EZKnock;
 class Buyers extends Resource {
 
     /**
+     * Unhold orders by Zipcodes or Ids
+     * @see https://developers.ezknockmarketplace.com/reference#unhold-orders
+     *
+     * @param  array      $order_ids
+     * @param  array|null $zipcodes
+     * @param  string     $notes
+     *
+     * @return object
+     */
+    public function unhold(array $order_ids, array $zipcodes = null, $notes = null) {
+        return $this->client->post('/buyers/orders/unhold', [
+            'order_ids' => $order_ids,
+            'zipcodes' => $zipcodes,
+            'notes' => $notes
+        ]);
+    }
+
+    /**
      * Hold orders by Zipcodes or Ids
      * @see https://developers.ezknockmarketplace.com/reference#hold-orders
      *
