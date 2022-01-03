@@ -4,6 +4,10 @@ namespace EZKnock;
 
 class Order extends Resource {
 
+    const PROOF_REVIEW_RESULT_APPROVED = 'approved';
+    const PROOF_REVIEW_RESULT_REJECTED_UPLOAD = 'rejected-upload';
+    const PROOF_REVIEW_RESULT_REJECTED_MANNER = 'rejected-manner';
+
     /**
      * Relese buyer hold
      * @see https://developers.ezknockmarketplace.com/reference#unhold-order
@@ -57,5 +61,15 @@ class Order extends Resource {
      */
     public function getDocuments($type = null) {
         return $this->client->get('/buyers/orders/'.$this->id.'/documents', ['type' => $type]);
+    }
+
+    /**
+     * Submit Proof review result
+     *
+     * @param  string $result
+     * @return object
+     */
+    public function proofReview($result) {
+        return $this->client->post('/buyers/orders/'.$this->id.'/proof-review', ['result' => $result]);
     }
 }
