@@ -72,4 +72,14 @@ class Order extends Resource {
     public function proofReview($result) {
         return $this->client->post('/buyers/orders/'.$this->id.'/proof-review', ['result' => $result]);
     }
+
+    /**
+     * Submit Diligence review result
+     *
+     * @param  string $result
+     * @return object
+     */
+    public function diligenceReview($result) {
+        return $this->client->post('/buyers/orders/'.$this->id.'/diligence-review', ['result' => $result]);
+    }
 }
