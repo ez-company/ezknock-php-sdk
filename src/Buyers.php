@@ -104,6 +104,7 @@ class Buyers extends Resource {
 
     /**
      * Get an order
+     * @see https://developers.ezknockmarketplace.com/reference#get-order
      *
      * @param  string $id
      * @return object

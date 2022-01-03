@@ -47,4 +47,15 @@ class Order extends Resource {
 
         return $this->client->post('/buyers/orders/'.$this->id.'/documents', $stream, null, 'multipart/form-data; boundary="'.$boundary.'"');
     }
+
+    /**
+     * Get documents
+     * @see https://developers.ezknockmarketplace.com/reference#get-order-documents
+     *
+     * @param  mixed $type
+     * @return array
+     */
+    public function getDocuments($type = null) {
+        return $this->client->get('/buyers/orders/'.$this->id.'/documents', ['type' => $type]);
+    }
 }
