@@ -65,6 +65,7 @@ class Order extends Resource {
 
     /**
      * Submit Proof review result
+     * @see https://developers.ezknockmarketplace.com/reference#proof-review
      *
      * @param  string $result
      * @return object
@@ -75,6 +76,7 @@ class Order extends Resource {
 
     /**
      * Submit Diligence review result
+     * @see https://developers.ezknockmarketplace.com/reference#diligence-review
      *
      * @param  string $result
      * @return object
