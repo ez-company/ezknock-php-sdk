@@ -112,4 +112,14 @@ class Buyers extends Resource {
         $id = (int)$id;
         return $this->client->get('/buyers/orders/'.$id, null, Order::class);
     }
+
+    /**
+     * Creates a new Order instance
+     *
+     * @param  int    $id
+     * @return Order
+     */
+    public function orders(int $id) {
+        return new Order($this->client, ['id' => $id]);
+    }
 }
