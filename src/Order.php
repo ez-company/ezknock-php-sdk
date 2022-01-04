@@ -37,7 +37,7 @@ class Order extends Resource {
      *
      * @return object
      */
-    public function uploadDocuments($files, $options = []) {
+    public function uploadDocuments($files, array $options = null) {
         $builder = new MultipartDataBuilder;
         if ($options) $builder->addResources($options);
 
@@ -83,5 +83,16 @@ class Order extends Resource {
      */
     public function diligenceReview($result) {
         return $this->client->post('/buyers/orders/'.$this->id.'/diligence-review', ['result' => $result]);
+    }
+
+    /**
+     * Set and update due dates or deadlines
+     * @see https://developers.ezknockmarketplace.com/reference#set-due-dates
+     *
+     * @param array $data
+     * @return object
+     */
+    public function setDueDates(array $data) {
+        return $this->client->post('/buyers/orders/'.$this->id.'/duedates', $data);
     }
 }
