@@ -86,13 +86,13 @@ class Order extends Resource {
     }
 
     /**
-     * Set and update due dates or deadlines
-     * @see https://developers.ezknockmarketplace.com/reference#set-due-dates
+     * Set and update deadlines or due dates
+     * @see https://developers.ezknockmarketplace.com/reference#set-deadlines
      *
      * @param array $data
      * @return object
      */
-    public function setDueDates(array $data) {
-        return $this->client->post('/buyers/orders/'.$this->id.'/duedates', $data);
+    public function setDeadlines(array $data) {
+        return $this->client->post('/buyers/orders/'.$this->id.'/deadlines', $data);
     }
 }
