@@ -95,4 +95,29 @@ class Order extends Resource {
     public function setDeadlines(array $data) {
         return $this->client->post('/buyers/orders/'.$this->id.'/deadlines', $data);
     }
+
+    /**
+     * Get recipients (primary | left-with)
+     * @see https://developers.ezknockmarketplace.com/reference#get-recipients
+     *
+     * @param  string $type
+     * @return array
+     */
+    public function getRecipients($type = null) {
+        return $this->client->get('/buyers/orders/'.$this->id.'/recipients', [
+            'type' => $type
+        ]);
+    }
+
+    /**
+     * Update a recipient
+     * @see https://developers.ezknockmarketplace.com/reference#update-recipient
+     *
+     * @param  int    $id
+     * @param  array  $data
+     * @return object
+     */
+    public function updateRecipient(int $id, array $data) {
+        return $this->client->post('/buyers/orders/'.$this->id.'/recipients/'.$id, $data);
+    }
 }
