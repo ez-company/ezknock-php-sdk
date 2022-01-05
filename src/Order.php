@@ -8,6 +8,9 @@ class Order extends Resource {
     const PROOF_REVIEW_RESULT_REJECTED_UPLOAD = 'rejected-upload';
     const PROOF_REVIEW_RESULT_REJECTED_MANNER = 'rejected-manner';
 
+    const RECIPIENT_PRIMARY = 'primary';
+    const RECIPIENT_LEFT_WITH = 'left-with';
+
     /**
      * Relese buyer hold
      * @see https://developers.ezknockmarketplace.com/reference#unhold-order
@@ -103,7 +106,7 @@ class Order extends Resource {
      * @param  string $type
      * @return array
      */
-    public function getRecipients($type = null) {
+    public function getRecipients($type = self::RECIPIENT_PRIMARY) {
         return $this->client->get('/buyers/orders/'.$this->id.'/recipients', [
             'type' => $type
         ]);
