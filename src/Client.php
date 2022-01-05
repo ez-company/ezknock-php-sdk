@@ -33,6 +33,8 @@ class Client {
 	private $auth_token;
 
 	public $buyers;
+    public $whoknocked;
+    public $options;
 
 	public function __construct(string $auth_token, string $env = self::ENV_SANDBOX) {
 		$this->env = $env;
@@ -40,6 +42,7 @@ class Client {
 
 		$this->buyers = new Buyers($this);
         $this->whoknocked = new Whoknocked($this);
+        $this->options =new Options($this);
 
 		$this->http = $this->getDefaultHttpClient();
         $this->request_factory = MessageFactoryDiscovery::find();
