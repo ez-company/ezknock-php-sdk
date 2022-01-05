@@ -123,4 +123,17 @@ class Order extends Resource {
     public function updateRecipient(int $id, array $data) {
         return $this->client->post('/buyers/orders/'.$this->id.'/recipients/'.$id, $data);
     }
+
+    /**
+     * Get instructions
+     * @see https://developers.ezknockmarketplace.com/reference#get-instructions
+     *
+     * @param  string $type
+     * @return array
+     */
+    public function getInstructions($type = null) {
+        return $this->client->get('/buyers/orders/'.$this->id.'/instructions', [
+            'type' => $type
+        ]);
+    }
 }
