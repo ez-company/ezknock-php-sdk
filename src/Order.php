@@ -190,4 +190,19 @@ class Order extends Resource {
             'notes' => $notes
         ]);
     }
+
+    /**
+     * Pull Order from seller
+     * @see https://developers.ezknockmarketplace.com/reference#pull-order
+     *
+     * @param  string $notes
+     * @param  float  $amount
+     * @return object
+     */
+    public function pull($notes, float $amount = 0) {
+        return $this->client->post('/buyers/orders/'.$this->id.'/pull', [
+            'notes' => $notes,
+            'amount' => $amount
+        ]);
+    }
 }
