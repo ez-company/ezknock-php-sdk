@@ -166,4 +166,15 @@ class Order extends Resource {
     public function updateGeneralInfo(array $data) {
         return $this->client->post('/buyers/orders/'.$this->id.'/general-info', $data);
     }
+
+    /**
+     * Update delivery address
+     * @see https://developers.ezknockmarketplace.com/reference#update-delivery-address
+     *
+     * @param  array  $data
+     * @return object
+     */
+    public function updateAddress(array $data) {
+        return $this->client->post('/buyers/orders/'.$this->id.'/address', $data);
+    }
 }
