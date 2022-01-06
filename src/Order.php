@@ -11,6 +11,11 @@ class Order extends Resource {
     const RECIPIENT_PRIMARY = 'primary';
     const RECIPIENT_LEFT_WITH = 'left-with';
 
+    const RETURN_TYPE_DEFAULT = 'default';
+    const RETURN_TYPE_BUYER_UPLOAD = 'buyer-upload';
+    const RETURN_TYPE_BUYER_POST_UPLOAD = 'buyer-post-upload';
+    const RETURN_TYPE_SELLER_UPLOAD = 'seller-upload';
+
     /**
      * Relese buyer hold
      * @see https://developers.ezknockmarketplace.com/reference#unhold-order
@@ -149,5 +154,16 @@ class Order extends Resource {
         return $this->client->post('/buyers/orders/'.$this->id.'/instructions/'.$id, [
             'body' => $body
         ]);
+    }
+
+    /**
+     * Update general information
+     * @see https://developers.ezknockmarketplace.com/reference#update-general-info
+     *
+     * @param  array $data
+     * @return object
+     */
+    public function updateGeneralInfo(array $data) {
+        return $this->client->post('/buyers/orders/'.$this->id.'/general-info', $data);
     }
 }
