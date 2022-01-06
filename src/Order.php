@@ -177,4 +177,17 @@ class Order extends Resource {
     public function updateAddress(array $data) {
         return $this->client->post('/buyers/orders/'.$this->id.'/address', $data);
     }
+
+    /**
+     * Cancel the Order
+     * @see https://developers.ezknockmarketplace.com/reference#cancel-order
+     *
+     * @param  string $notes
+     * @return object
+     */
+    public function cancel($notes) {
+        return $this->client->post('/buyers/orders/'.$this->id.'/cancel', [
+            'notes' => $notes
+        ]);
+    }
 }
