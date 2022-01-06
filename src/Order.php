@@ -136,4 +136,18 @@ class Order extends Resource {
             'type' => $type
         ]);
     }
+
+    /**
+     * Update an instruction
+     * @see https://developers.ezknockmarketplace.com/reference#update-instruction
+     *
+     * @param  int    $id
+     * @param  array  $data
+     * @return object
+     */
+    public function updateInstruction(int $id, $body) {
+        return $this->client->post('/buyers/orders/'.$this->id.'/instructions/'.$id, [
+            'body' => $body
+        ]);
+    }
 }
