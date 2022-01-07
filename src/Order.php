@@ -94,6 +94,23 @@ class Order extends Resource {
     }
 
     /**
+     * Process partial review
+     * @see https://developers.ezknockmarketplace.com/reference#partial-review
+     *
+     * @param  string        $result
+     * @param  string        $notes
+     * @param  float|integer $amount
+     * @return object
+     */
+    public function partialReview($result, $notes = null, float $amount = 0) {
+        return $this->client->post('/buyers/orders/'.$this->id.'/partial-review', [
+            'result' => $result,
+            'notes' => $notes,
+            'amount' => $amount
+        ]);
+    }
+
+    /**
      * Set and update deadlines or due dates
      * @see https://developers.ezknockmarketplace.com/reference#set-deadlines
      *
