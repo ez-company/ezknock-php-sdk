@@ -123,4 +123,15 @@ class Buyers extends Resource {
     public function orders(int $id) {
         return new Order($this->client, ['id' => $id]);
     }
+
+    /**
+     * Blacklist a seller
+     * @see https://developers.ezknockmarketplace.com/reference#blacklist-seller
+     *
+     * @param  int $seller_id
+     * @return object
+     */
+    public function blacklist($seller_id) {
+        return $this->client->post('/buyers/sellers/'.$seller_id.'/blacklist');
+    }
 }
