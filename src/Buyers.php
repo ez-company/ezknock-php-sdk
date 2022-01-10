@@ -128,10 +128,21 @@ class Buyers extends Resource {
      * Blacklist a seller
      * @see https://developers.ezknockmarketplace.com/reference#blacklist-seller
      *
-     * @param  int $seller_id
+     * @param  int $id
      * @return object
      */
-    public function blacklist($seller_id) {
-        return $this->client->post('/buyers/sellers/'.$seller_id.'/blacklist');
+    public function blacklist($id) {
+        return $this->client->post('/buyers/sellers/'.$id.'/blacklist');
+    }
+
+    /**
+     * Whitelist a seller
+     * @see https://developers.ezknockmarketplace.com/reference#whitelist-seller
+     *
+     * @param  int $id
+     * @return object
+     */
+    public function whitelist($id) {
+        return $this->client->post('/buyers/sellers/'.$id.'/whitelist');
     }
 }
