@@ -76,18 +76,6 @@ class Buyers extends Resource {
     }
 
     /**
-     * Rate a seller
-     * @see https://developers.ezknockmarketplace.com/reference#seller-rate
-     *
-     * @param  int $seller_id
-     * @param  array $data
-     * @return object
-     */
-    public function sellerRate($seller_id, $data) {
-        return $this->client->post('/buyers/sellers/'.$seller_id.'/rate', $data);
-    }
-
-    /**
      * Add funds to wallet from funding source
      *
      * @param  string $source_id

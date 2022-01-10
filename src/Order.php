@@ -222,4 +222,16 @@ class Order extends Resource {
             'amount' => $amount
         ]);
     }
+
+    /**
+     * Rate a seller
+     * @see https://developers.ezknockmarketplace.com/reference#seller-rating
+     *
+     * @param  int $seller_id
+     * @param  array $data
+     * @return object
+     */
+    public function sellerRating($data) {
+        return $this->client->post('/buyers/orders/'.$this->id.'/seller-rating', $data);
+    }
 }
