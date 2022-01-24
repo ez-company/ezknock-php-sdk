@@ -101,7 +101,17 @@ $data = [
     'service_files' => [fopen('/path/to/file.pdf', 'r')],
     'other_files' => [fopen('/path/to/file.pdf', 'r')],
     'return_file' => fopen('/path/to/file.pdf', 'r'),
-    'price' => 19
+    'qualifications' => [1, 2, 3],
+    'costs' => [
+        [
+            'name' => 'delivery',
+            'amount' => 50
+        ],
+        [
+            'name' => 'rush',
+            'amount' => 20
+        ]
+    ]
 ];
 
 try {
