@@ -145,4 +145,15 @@ class Buyers extends Resource {
     public function whitelist($id) {
         return $this->client->post('/buyers/sellers/'.$id.'/whitelist');
     }
+
+    /**
+     * Get buyer messages
+     * @see https://developers.ezknockmarketplace.com/reference#direct-messaging
+     *
+     * @param  array $options
+     * @return object
+     */
+    public function getMessenger(array $options = null) {
+        return $this->client->get('/buyers/messenger/', $options);
+    }
 }
