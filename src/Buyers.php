@@ -47,10 +47,9 @@ class Buyers extends Resource {
      * @param  array $data
      * @return Order
      */
-    public function createOrder(array $data, $type = Order::TYPE_CBO) {
+    public function createOrder(array $data) {
         $builder = new MultipartDataBuilder;
         $builder->addResources($data);
-        $builder->addResource('type', $type);
 
         $stream = $builder->build();
         $boundary = $builder->getBoundary();
