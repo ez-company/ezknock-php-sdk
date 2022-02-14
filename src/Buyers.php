@@ -153,6 +153,6 @@ class Buyers extends Resource {
      * @return object
      */
     public function getMessenger(array $options = null) {
-        return $this->client->get('/buyers/messenger', $options);
+        return $this->client->get('/buyers/messenger', $options, Messenger::class);
     }
 }
