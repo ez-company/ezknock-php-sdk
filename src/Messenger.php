@@ -12,6 +12,6 @@ class Messenger extends Resource {
      * @return object
      */
     public function getConversation(int $channel_id, array $options = null) {
-        return $this->client->get('/buyers/messenger/'.$channel_id.'/conversation', $options);
+        return $this->client->get('/buyers/messenger/'.$channel_id.'/conversation', $options, Conversation::class);
     }
 }
