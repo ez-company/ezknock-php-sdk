@@ -97,8 +97,18 @@ class Buyers extends Resource {
      * @param  string $zipcode
      * @return object
      */
-    public function coverage($zipcode) {
+    public function getCoverage($zipcode) {
         return $this->client->get('/buyers/coverage', ['zip' => $zipcode]);
+    }
+
+    /**
+     * Get coverage price information
+     *
+     * @param  string $zipcode
+     * @return object
+     */
+    public function getCoveragePrice($zipcode) {
+        return $this->client->get('/buyers/coverage/price', ['zip' => $zipcode]);
     }
 
     /**
