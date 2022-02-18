@@ -217,13 +217,13 @@ class Client {
 	/**
      * Sends POST request to EZ Knock API.
      *
-     * @param  string $endpoint
-     * @param  array $data
+     * @param string $endpoint
+     * @param array|null $data
      * @param string $resource
      *
      * @return stdClass
      */
-    public function post($endpoint, $data, $resource = null, $content_type = 'application/json') {
+    public function post($endpoint, array $data = null, $resource = null, $content_type = 'application/json') {
         $uri = $this->getUri($endpoint);
         $response = $this->sendRequest('POST', $uri, $data, $content_type);
         return $this->handleResponse($response, $resource);
@@ -233,12 +233,12 @@ class Client {
      * Sends GET request to EZ Knock API.
      *
      * @param string $endpoint
-     * @param array  $queryParams
+     * @param array|null  $queryParams
      * @param string $resource
      *
      * @return stdClass
      */
-    public function get($endpoint, $params = [], $resource = null) {
+    public function get($endpoint, array $params = null, $resource = null) {
         $uri = $this->uri_factory->createUri($this->getUri($endpoint));
         if (!empty($params)) $uri = $uri->withQuery(http_build_query($params));
 
