@@ -16,6 +16,7 @@ class Conversation extends Resource {
     public function sendMessage($body, $files = null, int $doctype_id = null) {
         $builder = new MultipartDataBuilder;
 
+        $builder->addResource('body', $body);
         if ($doctype_id) $builder->addResource('doctype_id', $doctype_id);
         if ($files) {
             $files = is_array($files) ? $files : [$files];

@@ -5,6 +5,16 @@ namespace EZKnock;
 class Messenger extends Resource {
 
     /**
+     * Creates a new Conversation instance
+     *
+     * @param  int    $channel_id
+     * @return Conversation
+     */
+    public function conversations(int $channel_id) {
+        return new Conversation($this->client, ['id' => $channel_id]);
+    }
+
+    /**
      * Get channel conversation
      * @see https://developers.ezknockmarketplace.com/reference#get-conversation
      *

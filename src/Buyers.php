@@ -134,6 +134,15 @@ class Buyers extends Resource {
     }
 
     /**
+     * Creates a new Messenger instance
+     *
+     * @return Messenger
+     */
+    public function messenger() {
+        return new Messenger($this->client);
+    }
+
+    /**
      * Blacklist a seller
      * @see https://developers.ezknockmarketplace.com/reference#blacklist-seller
      *
