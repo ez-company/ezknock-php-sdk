@@ -12,12 +12,14 @@ class ClientHttpException extends \Exception {
         $message = $e->getMessage();
         $code = $e->getCode();
 
-        $response = $e->getResponse();
-        $stream = $response->getBody()->getContents();
-        if ($body = json_decode($stream)) {
-            $message = $body->message ?? $message;
-            $code = $response->getStatusCode();
-            $this->debug = $body->debug ?? null;
+        $response = $e->getResponse() ?? null;
+        if ($response) {
+            $stream = $response->getBody()->getContents();
+            if ($body = json_decode($stream)) {
+                $message = $body->message ?? $message;
+                $code = $response->getStatusCode();
+                $this->debug = $body->debug ?? null;
+            }
         }
 
         parent::__construct($message, $code);
