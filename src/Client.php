@@ -6,16 +6,16 @@ use Http\Client\Common\Plugin\ErrorPlugin;
 use Http\Client\Common\PluginClient;
 use Http\Client\HttpClient;
 use Http\Discovery\HttpClientDiscovery;
-use Http\Discovery\MessageFactoryDiscovery;
-use Http\Discovery\UriFactoryDiscovery;
+use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Message\Authentication;
 use Http\Message\Authentication\BasicAuth;
 use Http\Message\Authentication\Bearer;
-use Http\Message\RequestFactory;
-use Http\Message\UriFactory;
 use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
 
 class Client {
@@ -28,6 +28,7 @@ class Client {
 	private $env;
 	private $http;
 	private $request_factory;
+	private $stream_factory;
 	private $uri_factory;
 	private $rate_limit;
 	private $auth_token;
@@ -45,8 +46,9 @@ class Client {
         $this->options =new Options($this);
 
 		$this->http = $this->getDefaultHttpClient();
-        $this->request_factory = MessageFactoryDiscovery::find();
-        $this->uri_factory = UriFactoryDiscovery::find();
+        $this->request_factory = Psr17FactoryDiscovery::findRequestFactory();
+        $this->stream_factory = Psr17FactoryDiscovery::findStreamFactory();
+        $this->uri_factory = Psr17FactoryDiscovery::findUriFactory();
 	}
 
     /**
@@ -61,18 +63,27 @@ class Client {
     /**
      * Sets the request factory.
      *
-     * @param RequestFactory $factory
+     * @param RequestFactoryInterface $factory
      */
-    public function setRequestFactory(RequestFactory $factory) {
+    public function setRequestFactory(RequestFactoryInterface $factory) {
         $this->request_factory = $factory;
+    }
+
+    /**
+     * Sets the stream factory.
+     *
+     * @param StreamFactoryInterface $factory
+     */
+    public function setStreamFactory(StreamFactoryInterface $factory) {
+        $this->stream_factory = $factory;
     }
 
     /**
      * Sets the URI factory.
      *
-     * @param UriFactory $factory
+     * @param UriFactoryInterface $factory
      */
-    public function setUriFactory(UriFactory $factory) {
+    public function setUriFactory(UriFactoryInterface $factory) {
         $this->uri_factory = $factory;
     }
 
@@ -148,7 +159,19 @@ class Client {
         $headers = $this->getRequestHeaders($content_type);
         $body = is_array($body) && $content_type === 'application/json' ? json_encode($body) : $body;
 
-        $request = $this->request_factory->createRequest($method, $uri, $headers, $body);
+        $request = $this->request_factory->createRequest($method, $uri);
+        
+        // Add headers
+        foreach ($headers as $name => $value) {
+            $request = $request->withHeader($name, $value);
+        }
+        
+        // Add body if present
+        if ($body !== null) {
+            $stream = $this->stream_factory->createStream($body);
+            $request = $request->withBody($stream);
+        }
+        
         $authenticated_request = $this->authenticateRequest($request);
 
         try {
